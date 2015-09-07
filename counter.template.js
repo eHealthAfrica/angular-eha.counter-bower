@@ -16,6 +16,7 @@ angular.module("templates/counter.template.tpl.html", []).run(["$templateCache",
     "  <input\n" +
     "    type=\"number\"\n" +
     "    min=\"0\"\n" +
+    "    step=\"1\"\n" +
     "    class=\"form-control input-lg eha-counter-input\"\n" +
     "    ng-change=\"change\"\n" +
     "    ng-model=\"count\"\n" +
