@@ -49,7 +49,7 @@ angular.module("templates/counter.template.tpl.html", []).run(["$templateCache",
   ngModule.directive('ehaCounter', function () {
     return {
       restrict: 'E',
-      templateUrl: 'views/templates/counter.html',
+      templateUrl: 'templates/counter.template.tpl.html',
       scope: {
         count: '=bind',
         change: '=onchange',
