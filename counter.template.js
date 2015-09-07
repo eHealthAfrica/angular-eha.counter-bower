@@ -17,7 +17,7 @@ angular.module("templates/counter.template.tpl.html", []).run(["$templateCache",
     "    type=\"number\"\n" +
     "    min=\"0\"\n" +
     "    step=\"1\"\n" +
-    "    class=\"form-control input-lg eha-counter-input\"\n" +
+    "    class=\"form-control input-lg eha-counter-input text-center\"\n" +
     "    ng-change=\"change\"\n" +
     "    ng-model=\"count\"\n" +
     "    required\n" +
@@ -46,7 +46,15 @@ angular.module("templates/counter.template.tpl.html", []).run(["$templateCache",
    */
   var ngModule = angular.module('eha.counter.directive', [])
 
-  ngModule.directive('ehaCounter', function () {
+  ngModule.provider('ehaCounter', function () {
+    this.increment = angular.noop
+    this.decrement = angular.noop
+    this.$get = function () {
+      return this
+    }
+  })
+
+  ngModule.directive('ehaCounter', ['ehaCounter', function (ehaCounter) {
     return {
       restrict: 'E',
       templateUrl: function (element, attrs) {
@@ -66,11 +74,15 @@ angular.module("templates/counter.template.tpl.html", []).run(["$templateCache",
           return (isNaN(value) || value === '' || value < 1)
         }
         scope.incrementTouch = function (count) {
-          return isInvalid(count) ? 1 : (parseInt(count, 10) + 1)
+          var res = isInvalid(count) ? 1 : (parseInt(count, 10) + 1)
+          ehaCounter.increment(res)
+          return res
         }
 
         scope.decrementTouch = function (count) {
-          return isInvalid(count) ? 0 : (parseInt(count, 10) - 1)
+          var res = isInvalid(count) ? 0 : (parseInt(count, 10) - 1)
+          ehaCounter.decrement(res)
+          return res
         }
 
         element.on('$destroy', function () {
@@ -79,7 +91,7 @@ angular.module("templates/counter.template.tpl.html", []).run(["$templateCache",
         })
       }
     }
-  })
+  }])
 
   // Check for and export to commonjs environment
   if (typeof module !== 'undefined' && module.exports) {
