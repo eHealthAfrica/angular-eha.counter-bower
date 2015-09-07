@@ -44,13 +44,14 @@ angular.module("templates/counter.template.tpl.html", []).run(["$templateCache",
    * @name ehaCounter
    * @module eha.counter
    */
-  var ngModule = angular.module('eha.counter.directive', [
-  ])
+  var ngModule = angular.module('eha.counter.directive', [])
 
   ngModule.directive('ehaCounter', function () {
     return {
       restrict: 'E',
-      templateUrl: 'templates/counter.template.tpl.html',
+      templateUrl: function (element, attrs) {
+        return attrs.templateUrl || 'templates/counter.template.tpl.html'
+      },
       scope: {
         count: '=bind',
         change: '=onchange',
@@ -86,17 +87,16 @@ angular.module("templates/counter.template.tpl.html", []).run(["$templateCache",
   }
 })()
 
-;(function() {
-  'use strict';
+;(function () {
+  'use strict'
 
   var ngModule = angular.module('eha.counter', [
     'eha.counter.directive',
     'eha.counter.template'
-  ]);
+  ])
 
   // Check for and export to commonjs environment
   if (typeof module !== 'undefined' && module.exports) {
-    module.exports = ngModule;
+    module.exports = ngModule
   }
-
-})();
+})()
